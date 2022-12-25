@@ -68,7 +68,7 @@ resource "aws_route_table" "terraform_public_route_table" {
 }
 // Public route table assocition
 resource "aws_route_table_association" "terraform-public-RT" {
-    count = length(var.pub_subnet_cidr)
+  count          = length(var.pub_subnet_cidr)
   subnet_id      = aws_subnet.terraform_public_subnet.*.id[count.index]
   route_table_id = aws_route_table.terraform_public_route_table.id
 }
@@ -77,10 +77,10 @@ resource "aws_route_table_association" "terraform-public-RT" {
 resource "aws_route_table" "terraform_private_route_table" {
   vpc_id = aws_vpc.terraform_vpc.id
 
-  /* route {
+  route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  } */
+    gateway_id = aws_nat_gateway.terraform-NAT.id
+  }
 
 
   tags = {
@@ -89,7 +89,7 @@ resource "aws_route_table" "terraform_private_route_table" {
 }
 // private route table assocition
 resource "aws_route_table_association" "terraform-private-RT" {
-    count = length(var.pub_subnet_cidr)
+  count          = length(var.pub_subnet_cidr)
   subnet_id      = aws_subnet.terraform_private_subnet.*.id[count.index]
   route_table_id = aws_route_table.terraform_private_route_table.id
 }
