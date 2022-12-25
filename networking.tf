@@ -87,9 +87,23 @@ resource "aws_route_table" "terraform_private_route_table" {
     Name = "terraform-private-route-table"
   }
 }
-// Public route table assocition
+// private route table assocition
 resource "aws_route_table_association" "terraform-private-RT" {
     count = length(var.pub_subnet_cidr)
   subnet_id      = aws_subnet.terraform_private_subnet.*.id[count.index]
   route_table_id = aws_route_table.terraform_private_route_table.id
+}
+
+resource "aws_eip" "nat_gateway" {
+  vpc = true
+}
+
+//nat gatway
+resource "aws_nat_gateway" "terraform-NAT" {
+  allocation_id = aws_eip.nat_gateway.id
+  subnet_id     = aws_subnet.terraform_public_subnet.*.id[1]
+
+  tags = {
+    Name = "terraform-NAT"
+  }
 }
