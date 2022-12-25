@@ -43,3 +43,11 @@ resource "aws_subnet" "terraform_private_subnet" {
     create_before_destroy = true
   }
 }
+//igw
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.terraform_vpc.id
+
+  tags = {
+    Name = "terraform-igw"
+  }
+}
