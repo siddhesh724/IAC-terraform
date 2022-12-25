@@ -50,6 +50,9 @@ resource "aws_internet_gateway" "igw" {
   tags = {
     Name = "terraform-igw"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 
 }
 //public route table
@@ -65,12 +68,18 @@ resource "aws_route_table" "terraform_public_route_table" {
   tags = {
     Name = "terraform-public-route-table"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 // Public route table assocition
 resource "aws_route_table_association" "terraform-public-RT" {
   count          = length(var.pub_subnet_cidr)
   subnet_id      = aws_subnet.terraform_public_subnet.*.id[count.index]
   route_table_id = aws_route_table.terraform_public_route_table.id
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 //private route table
@@ -86,16 +95,25 @@ resource "aws_route_table" "terraform_private_route_table" {
   tags = {
     Name = "terraform-private-route-table"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 // private route table assocition
 resource "aws_route_table_association" "terraform-private-RT" {
   count          = length(var.pub_subnet_cidr)
   subnet_id      = aws_subnet.terraform_private_subnet.*.id[count.index]
   route_table_id = aws_route_table.terraform_private_route_table.id
+  lifecycle {
+    create_before_destroy =true
+  }
 }
 
 resource "aws_eip" "nat_gateway" {
   vpc = true
+  lifecycle {
+    create_before_destroy =true
+  }
 }
 
 //nat gatway
@@ -105,5 +123,8 @@ resource "aws_nat_gateway" "terraform-NAT" {
 
   tags = {
     Name = "terraform-NAT"
+  }
+  lifecycle {
+    create_before_destroy =true
   }
 }
