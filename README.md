@@ -10,10 +10,7 @@ this code is for creating IAC component included "
 This terraform script is Not hardcoded so you can freely use this. before using just change the provider.tf file as per your orgination and workspace.
 for more detail Email me i will free to answer.
 
-More thing i will get added in this as per that i will update this section. if you want to use this code 
-
-with with help of this can create custom VPC. 
-
+More thing i will get added in this as per that i will update this section. 
 created By : Siddhesh Tendulkar
 Phone Number : NA
 email Id : siddheshtendulkar724@gmail.com
